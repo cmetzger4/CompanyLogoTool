@@ -89,7 +89,7 @@
             this.buttonSearch.Cursor = System.Windows.Forms.Cursors.Default;
             this.buttonSearch.Location = new System.Drawing.Point(351, 37);
             this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.Size = new System.Drawing.Size(75, 23);
+            this.buttonSearch.Size = new System.Drawing.Size(88, 23);
             this.buttonSearch.TabIndex = 5;
             this.buttonSearch.Text = "Search";
             this.buttonSearch.UseVisualStyleBackColor = true;
@@ -98,16 +98,16 @@
             // 
             this.buttonBrowse.Location = new System.Drawing.Point(351, 115);
             this.buttonBrowse.Name = "buttonBrowse";
-            this.buttonBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonBrowse.Size = new System.Drawing.Size(88, 23);
             this.buttonBrowse.TabIndex = 6;
-            this.buttonBrowse.Text = "Browse";
+            this.buttonBrowse.Text = "Browse for File";
             this.buttonBrowse.UseVisualStyleBackColor = true;
             // 
             // buttonSave
             // 
             this.buttonSave.Location = new System.Drawing.Point(351, 144);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.Size = new System.Drawing.Size(88, 23);
             this.buttonSave.TabIndex = 7;
             this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = true;
