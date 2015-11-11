@@ -102,6 +102,7 @@
             this.buttonBrowse.TabIndex = 6;
             this.buttonBrowse.Text = "Browse for File";
             this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
             // 
             // buttonSave
             // 
