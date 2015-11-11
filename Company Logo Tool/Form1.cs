@@ -16,7 +16,8 @@ namespace Company_Logo_Tool
     {
         
         SqlConnection conn = new SqlConnection("data source="+ Credentials.dataSource + ";initial catalog=" + Credentials.database + ";user id=" + Credentials.userName + ";password="+ Credentials.password);
-        SqlCommand command;
+        SqlCommand commandA;
+        SqlCommand commandB;
         string imagePath = "";
         
         public mainForm()
@@ -63,24 +64,36 @@ namespace Company_Logo_Tool
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            string custNum = "test";
+            string insertImageSQL = "INSERT INTO rsci_Logos(image) " +
+                                    "OUTPUT INSERTED.ID "            +
+                                    "VALUES (@image)";
+
+            string insertCustSQL = "INSERT INTO rsci_CompanyLogos(kcustnum, logo_id)" +
+                                   "VALUES (@kcustnum, @logoId)";
+
             try
             {
                 byte[] image = null;
                 FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
                 BinaryReader br = new BinaryReader(fs);
                 image = br.ReadBytes((int)fs.Length);
-                string insertSQL = "INSERT INTO rsci_Logos(image) "+
-                                   "VALUES (@image)";
+                
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
 
-                command = new SqlCommand(insertSQL, conn);
-                command.Parameters.Add(new SqlParameter("@image", image));
-                command.ExecuteReader();
+                commandA = new SqlCommand(insertImageSQL, conn);
+                commandA.Parameters.Add(new SqlParameter("@image", image));
+                Int32 recordId = (Int32)commandA.ExecuteScalar();
+
+                commandB = new SqlCommand(insertCustSQL, conn);
+                commandB.Parameters.Add(new SqlParameter("@kcustnum", custNum));
+                commandB.Parameters.Add(new SqlParameter("@logoId", recordId));
+                commandB.ExecuteNonQuery();
                 conn.Close();
-                MessageBox.Show("Record Saved");
+                MessageBox.Show("Record Saved: " + recordId.ToString());
                 pictureBoxLogo.Image = null;
             }
             catch (Exception ex)
