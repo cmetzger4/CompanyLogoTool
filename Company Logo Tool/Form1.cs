@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,39 @@ namespace Company_Logo_Tool
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                byte[] image = null;
+                FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
+                BinaryReader br = new BinaryReader(fs);
+                image = br.ReadBytes((int)fs.Length);
+                string insertSQL = "INSERT INTO rsci_Logos(image) "+
+                                   "VALUES (@image)";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                command = new SqlCommand(insertSQL, conn);
+                command.Parameters.Add(new SqlParameter("@image", image));
+                command.ExecuteReader();
+                conn.Close();
+                MessageBox.Show("Record Saved");
+                pictureBoxLogo.Image = null;
+            }
+            catch (Exception ex)
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+
                 MessageBox.Show(ex.Message);
             }
         }
