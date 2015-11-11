@@ -92,6 +92,7 @@ namespace Company_Logo_Tool
                 commandB.Parameters.Add(new SqlParameter("@kcustnum", custNum));
                 commandB.Parameters.Add(new SqlParameter("@logoId", recordId));
                 commandB.ExecuteNonQuery();
+
                 conn.Close();
                 MessageBox.Show("Record Saved: " + recordId.ToString());
                 pictureBoxLogo.Image = null;
