@@ -16,8 +16,6 @@ namespace Company_Logo_Tool
     {
         
         SqlConnection conn = new SqlConnection("data source="+ Credentials.dataSource + ";initial catalog=" + Credentials.database + ";user id=" + Credentials.userName + ";password="+ Credentials.password);
-        SqlCommand commandA;
-        SqlCommand commandB;
         string imagePath = "";
         
         public mainForm()
@@ -64,6 +62,8 @@ namespace Company_Logo_Tool
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            SqlCommand commandA;
+            SqlCommand commandB;
             string custNum = "test";
             string insertImageSQL = "INSERT INTO rsci_Logos(image) " +
                                     "OUTPUT INSERTED.ID "            +
