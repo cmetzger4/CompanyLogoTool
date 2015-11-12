@@ -113,6 +113,8 @@ namespace Company_Logo_Tool
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
+            byte[] image = null;
+
             try
             {
                 
@@ -133,7 +135,28 @@ namespace Company_Logo_Tool
                 if (reader.HasRows)
                 {
                     textBoxCustomerName.Text = reader[0].ToString();
-                    byte[] image = (byte[])(reader[1]);
+
+                    try
+                    {
+                        image = (byte[])(reader[1]);
+                    }
+                    catch(InvalidCastException ex)
+                    {
+                        if(typeof(DBNull) == reader[1].GetType())
+                        {
+                            image = null;
+                        }
+                        else
+                        {
+                            if (conn.State != ConnectionState.Closed)
+                            {
+                                conn.Close();
+                            }
+
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                    
                     if (image == null)
                     {
                         pictureBoxLogo.Image = null;
