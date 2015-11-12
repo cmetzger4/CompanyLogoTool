@@ -108,5 +108,58 @@ namespace Company_Logo_Tool
             }
         }
 
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                string selectSQL = "SELECT custname, image " +
+                                   "FROM custmast t1 " +
+                                   "LEFT JOIN rsci_CompanyLogos t2 ON t2.kcustnum = t1.kcustnum " +
+                                   "LEFT JOIN rsci_Logos t3 ON t3.id = t2.logo_id " +
+                                   "WHERE t1.kcustnum = '" + textBoxCustomerNumber.Text + "' ";
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                SqlCommand command = new SqlCommand(selectSQL, conn);
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                if (reader.HasRows)
+                {
+                    textBoxCustomerName.Text = reader[0].ToString();
+                    byte[] image = (byte[])(reader[1]);
+                    if (image == null)
+                    {
+                        pictureBoxLogo.Image = null;
+                    }
+                    else
+                    {
+                        MemoryStream ms = new MemoryStream(image);
+                        pictureBoxLogo.Image = Image.FromStream(ms);
+                    }
+                }
+                else
+                {
+                    textBoxCustomerName.Text = "";
+                    pictureBoxLogo.Image = null;
+                    MessageBox.Show("No Record Found for this Customer Number");
+                }
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
     }
 }

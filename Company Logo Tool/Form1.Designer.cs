@@ -32,8 +32,8 @@
             this.labelCustomerNumber = new System.Windows.Forms.Label();
             this.labelCustomerName = new System.Windows.Forms.Label();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxCustomerNumber = new System.Windows.Forms.TextBox();
+            this.textBoxCustomerName = new System.Windows.Forms.TextBox();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.buttonBrowse = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -68,21 +68,21 @@
             this.pictureBoxLogo.TabIndex = 2;
             this.pictureBoxLogo.TabStop = false;
             // 
-            // textBox1
+            // textBoxCustomerNumber
             // 
-            this.textBox1.Location = new System.Drawing.Point(126, 39);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 20);
-            this.textBox1.TabIndex = 3;
+            this.textBoxCustomerNumber.Location = new System.Drawing.Point(126, 39);
+            this.textBoxCustomerNumber.Name = "textBoxCustomerNumber";
+            this.textBoxCustomerNumber.Size = new System.Drawing.Size(152, 20);
+            this.textBoxCustomerNumber.TabIndex = 3;
             // 
-            // textBox2
+            // textBoxCustomerName
             // 
-            this.textBox2.Location = new System.Drawing.Point(126, 65);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(152, 20);
-            this.textBox2.TabIndex = 4;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.textBoxCustomerName.Location = new System.Drawing.Point(126, 65);
+            this.textBoxCustomerName.Name = "textBoxCustomerName";
+            this.textBoxCustomerName.ReadOnly = true;
+            this.textBoxCustomerName.Size = new System.Drawing.Size(152, 20);
+            this.textBoxCustomerName.TabIndex = 4;
+            this.textBoxCustomerName.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // buttonSearch
             // 
@@ -93,6 +93,7 @@
             this.buttonSearch.TabIndex = 5;
             this.buttonSearch.Text = "Search";
             this.buttonSearch.UseVisualStyleBackColor = true;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
             // 
             // buttonBrowse
             // 
@@ -120,8 +121,8 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonBrowse);
             this.Controls.Add(this.buttonSearch);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxCustomerName);
+            this.Controls.Add(this.textBoxCustomerNumber);
             this.Controls.Add(this.pictureBoxLogo);
             this.Controls.Add(this.labelCustomerName);
             this.Controls.Add(this.labelCustomerNumber);
@@ -141,8 +142,8 @@
         private System.Windows.Forms.Label labelCustomerNumber;
         private System.Windows.Forms.Label labelCustomerName;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxCustomerNumber;
+        private System.Windows.Forms.TextBox textBoxCustomerName;
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.Button buttonBrowse;
         private System.Windows.Forms.Button buttonSave;
