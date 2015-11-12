@@ -48,7 +48,6 @@
             this.labelCustomerNumber.Size = new System.Drawing.Size(91, 13);
             this.labelCustomerNumber.TabIndex = 0;
             this.labelCustomerNumber.Text = "Customer Number";
-            this.labelCustomerNumber.Click += new System.EventHandler(this.label1_Click);
             // 
             // labelCustomerName
             // 
@@ -83,7 +82,6 @@
             this.textBoxCustomerName.ReadOnly = true;
             this.textBoxCustomerName.Size = new System.Drawing.Size(152, 20);
             this.textBoxCustomerName.TabIndex = 4;
-            this.textBoxCustomerName.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // buttonSearch
             // 

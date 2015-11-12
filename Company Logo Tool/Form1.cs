@@ -23,16 +23,6 @@ namespace Company_Logo_Tool
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -64,6 +54,8 @@ namespace Company_Logo_Tool
         {
             SqlCommand commandA;
             SqlCommand commandB;
+            Int32 recordId;
+            byte[] image = null;
             
             string insertImageSQL = "INSERT INTO rsci_Logos(image) " +
                                     "OUTPUT INSERTED.ID "            +
@@ -74,9 +66,10 @@ namespace Company_Logo_Tool
 
             try
             {
-                byte[] image = null;
+                
                 FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
                 BinaryReader br = new BinaryReader(fs);
+
                 image = br.ReadBytes((int)fs.Length);
                 
                 if (conn.State != ConnectionState.Open)
@@ -86,7 +79,7 @@ namespace Company_Logo_Tool
 
                 commandA = new SqlCommand(insertImageSQL, conn);
                 commandA.Parameters.Add(new SqlParameter("@image", image));
-                Int32 recordId = (Int32)commandA.ExecuteScalar();
+                recordId = (Int32)commandA.ExecuteScalar();
 
                 commandB = new SqlCommand(insertCustSQL, conn);
                 commandB.Parameters.Add(new SqlParameter("@kcustnum", textBoxCustomerNumber.Text));
@@ -115,6 +108,9 @@ namespace Company_Logo_Tool
         {
             byte[] image = null;
 
+            SqlCommand command;
+            SqlDataReader reader;
+
             try
             {
                 
@@ -129,9 +125,10 @@ namespace Company_Logo_Tool
                     conn.Open();
                 }
 
-                SqlCommand command = new SqlCommand(selectSQL, conn);
-                SqlDataReader reader = command.ExecuteReader();
+                command = new SqlCommand(selectSQL, conn);
+                reader = command.ExecuteReader();
                 reader.Read();
+
                 if (reader.HasRows)
                 {
                     textBoxCustomerName.Text = reader[0].ToString();
