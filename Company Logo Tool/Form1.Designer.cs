@@ -61,6 +61,7 @@
             // 
             // pictureBoxLogo
             // 
+            this.pictureBoxLogo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxLogo.Location = new System.Drawing.Point(24, 115);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
             this.pictureBoxLogo.Size = new System.Drawing.Size(300, 150);
