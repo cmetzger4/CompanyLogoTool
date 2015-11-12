@@ -64,7 +64,7 @@ namespace Company_Logo_Tool
         {
             SqlCommand commandA;
             SqlCommand commandB;
-            string custNum = "test";
+            
             string insertImageSQL = "INSERT INTO rsci_Logos(image) " +
                                     "OUTPUT INSERTED.ID "            +
                                     "VALUES (@image)";
@@ -89,7 +89,7 @@ namespace Company_Logo_Tool
                 Int32 recordId = (Int32)commandA.ExecuteScalar();
 
                 commandB = new SqlCommand(insertCustSQL, conn);
-                commandB.Parameters.Add(new SqlParameter("@kcustnum", custNum));
+                commandB.Parameters.Add(new SqlParameter("@kcustnum", textBoxCustomerNumber.Text));
                 commandB.Parameters.Add(new SqlParameter("@logoId", recordId));
                 commandB.ExecuteNonQuery();
 
