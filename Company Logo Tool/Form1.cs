@@ -95,6 +95,8 @@ namespace Company_Logo_Tool
 
                 conn.Close();
                 MessageBox.Show("Record Saved: " + recordId.ToString());
+
+                textBoxCustomerNumber.Text = null;
                 pictureBoxLogo.Image = null;
             }
             catch (Exception ex)
