@@ -57,6 +57,7 @@ namespace Company_Logo_Tool
         {
             SqlCommand commandA;
             SqlCommand commandB;
+            SqlCommand commandC;
             Int32 recordId;
             byte[] image = null;
             
@@ -66,6 +67,9 @@ namespace Company_Logo_Tool
 
             string insertCustSQL = "INSERT INTO rsci_CompanyLogos(kcustnum, logo_id)" +
                                    "VALUES (@kcustnum, @logoId)";
+
+            string deleteExistingCompanyLogosRecords = "DELETE FROM rsci_CompanyLogos " +
+                                                       "WHERE kcustnum = @kcustnum";
 
             try
             {
@@ -85,6 +89,10 @@ namespace Company_Logo_Tool
                 commandA.Parameters.Add(new SqlParameter("@imageName", imageName));
                 recordId = (Int32)commandA.ExecuteScalar();
 
+                commandC = new SqlCommand(deleteExistingCompanyLogosRecords, conn);
+                commandC.Parameters.Add(new SqlParameter("@kcustnum", textBoxCustomerNumber.Text));
+                commandC.ExecuteNonQuery();
+                
                 commandB = new SqlCommand(insertCustSQL, conn);
                 commandB.Parameters.Add(new SqlParameter("@kcustnum", textBoxCustomerNumber.Text));
                 commandB.Parameters.Add(new SqlParameter("@logoId", recordId));
