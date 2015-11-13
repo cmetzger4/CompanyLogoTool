@@ -16,7 +16,8 @@ namespace Company_Logo_Tool
     {
         
         SqlConnection conn = new SqlConnection("data source="+ Credentials.dataSource + ";initial catalog=" + Credentials.database + ";user id=" + Credentials.userName + ";password="+ Credentials.password);
-        string imagePath = "";
+        String imagePath = "";
+        String imageName = "";
         
         public mainForm()
         {
@@ -42,6 +43,8 @@ namespace Company_Logo_Tool
                 {
                     imagePath = dlg.FileName.ToString();
                     pictureBoxLogo.ImageLocation = imagePath;
+
+                    imageName = Path.GetFileName(imagePath);
                 }
             }
             catch (Exception ex)
@@ -57,9 +60,9 @@ namespace Company_Logo_Tool
             Int32 recordId;
             byte[] image = null;
             
-            string insertImageSQL = "INSERT INTO rsci_Logos(image) " +
+            string insertImageSQL = "INSERT INTO rsci_Logos(imageName, image) " +
                                     "OUTPUT INSERTED.ID "            +
-                                    "VALUES (@image)";
+                                    "VALUES (@imageName, @image)";
 
             string insertCustSQL = "INSERT INTO rsci_CompanyLogos(kcustnum, logo_id)" +
                                    "VALUES (@kcustnum, @logoId)";
@@ -79,6 +82,7 @@ namespace Company_Logo_Tool
 
                 commandA = new SqlCommand(insertImageSQL, conn);
                 commandA.Parameters.Add(new SqlParameter("@image", image));
+                commandA.Parameters.Add(new SqlParameter("@imageName", imageName));
                 recordId = (Int32)commandA.ExecuteScalar();
 
                 commandB = new SqlCommand(insertCustSQL, conn);
