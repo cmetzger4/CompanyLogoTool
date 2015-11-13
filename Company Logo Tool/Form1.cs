@@ -18,6 +18,7 @@ namespace Company_Logo_Tool
         SqlConnection conn = new SqlConnection("data source="+ Credentials.dataSource + ";initial catalog=" + Credentials.database + ";user id=" + Credentials.userName + ";password="+ Credentials.password);
         String imagePath = "";
         String imageName = "";
+        byte[] image = null;
         
         public mainForm()
         {
@@ -58,8 +59,9 @@ namespace Company_Logo_Tool
             SqlCommand commandA;
             SqlCommand commandB;
             SqlCommand commandC;
-            Int32 recordId;
-            byte[] image = null;
+            SqlCommand commandD;
+
+            Int32 recordId = -1;
             
             string insertImageSQL = "INSERT INTO rsci_Logos(imageName, image) " +
                                     "OUTPUT INSERTED.ID "            +
@@ -68,28 +70,56 @@ namespace Company_Logo_Tool
             string insertCustSQL = "INSERT INTO rsci_CompanyLogos(kcustnum, logo_id)" +
                                    "VALUES (@kcustnum, @logoId)";
 
-            string deleteExistingCompanyLogosRecords = "DELETE FROM rsci_CompanyLogos " +
+            string deleteExistingCompanyLogosRecordsSQL = "DELETE FROM rsci_CompanyLogos " +
                                                        "WHERE kcustnum = @kcustnum";
+
+            string getExistingImagesSQL = "SELECT id, image " +
+                                           "FROM rsci_Logos " +
+                                           "WHERE imageName = @imageName";
 
             try
             {
                 
-                FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
-                BinaryReader br = new BinaryReader(fs);
+               // FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
+               // BinaryReader br = new BinaryReader(fs);
+                SqlDataReader reader;
 
-                image = br.ReadBytes((int)fs.Length);
+               // image = br.ReadBytes((int)fs.Length);
                 
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
 
-                commandA = new SqlCommand(insertImageSQL, conn);
-                commandA.Parameters.Add(new SqlParameter("@image", image));
-                commandA.Parameters.Add(new SqlParameter("@imageName", imageName));
-                recordId = (Int32)commandA.ExecuteScalar();
+                commandD = new SqlCommand(getExistingImagesSQL, conn);
+                commandD.Parameters.Add(new SqlParameter("@imageName", imageName));
+                reader = commandD.ExecuteReader();
+                //reader.Read();
 
-                commandC = new SqlCommand(deleteExistingCompanyLogosRecords, conn);
+                if (reader.HasRows)
+                {
+                    while(reader.Read())
+                        if (reader[1].ToString().Equals(image.ToString()))
+                        {
+                            recordId = Int32.Parse(reader[0].ToString());
+                        }
+                    reader.Close();
+                }
+                else
+                {
+                    reader.Close();
+                    FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+
+                    image = br.ReadBytes((int)fs.Length);
+
+                    commandA = new SqlCommand(insertImageSQL, conn);
+                    commandA.Parameters.Add(new SqlParameter("@image", image));
+                    commandA.Parameters.Add(new SqlParameter("@imageName", imageName));
+                    recordId = (Int32)commandA.ExecuteScalar();
+                }
+
+                commandC = new SqlCommand(deleteExistingCompanyLogosRecordsSQL, conn);
                 commandC.Parameters.Add(new SqlParameter("@kcustnum", textBoxCustomerNumber.Text));
                 commandC.ExecuteNonQuery();
                 
@@ -118,7 +148,7 @@ namespace Company_Logo_Tool
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            byte[] image = null;
+            
 
             SqlCommand command;
             SqlDataReader reader;
@@ -126,7 +156,7 @@ namespace Company_Logo_Tool
             try
             {
                 
-                string selectSQL = "SELECT custname, image " +
+                string selectSQL = "SELECT custname, imageName, image " +
                                    "FROM custmast t1 " +
                                    "LEFT JOIN rsci_CompanyLogos t2 ON t2.kcustnum = t1.kcustnum " +
                                    "LEFT JOIN rsci_Logos t3 ON t3.id = t2.logo_id " +
@@ -147,7 +177,8 @@ namespace Company_Logo_Tool
 
                     try
                     {
-                        image = (byte[])(reader[1]);
+                        imageName = reader[1].ToString();
+                        image = (byte[])(reader[2]);
                     }
                     catch(InvalidCastException ex)
                     {
