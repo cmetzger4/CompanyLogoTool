@@ -129,7 +129,7 @@ namespace Company_Logo_Tool
                 commandB.ExecuteNonQuery();
 
                 conn.Close();
-                MessageBox.Show("Record Saved: " + recordId.ToString());
+                MessageBox.Show("Record Saved");
 
                 textBoxCustomerNumber.Text = null;
                 textBoxCustomerName.Text = null;
